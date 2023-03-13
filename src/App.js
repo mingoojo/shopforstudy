@@ -7,13 +7,12 @@ import mainpic from './images/main-bg.jpg'
 import {dater, imageroot, linkess} from './data.js';
 import { Routes, Route, Link, useNavigate, Outlet, useParams} from 'react-router-dom'
 import styled from 'styled-components'
+import axios from 'axios'
 
 function App() {
   let [shoes, setShoes] = useState(dater)
   let [linkes, setLinkes] = useState(linkess)
   let navigate = useNavigate();
-
-
 
   return (
     <div className="App">
@@ -45,11 +44,28 @@ function App() {
                 }
               </Row>
             </Container>
+            <button onClick={()=>{
+              if(shoes.length == 3){
+                axios.get('https://codingapple1.github.io/shop/data2.json')
+                .then((result)=>{
+                  let solution = result.data
+                  let copy = [...shoes, ...solution]
+                  setShoes(copy)
+                })              
+              } else if(shoes.length == 6){
+                axios.get('https://codingapple1.github.io/shop/data3.json')
+                .then((result)=>{
+                  let solution = result.data
+                  let copy = [...shoes, ...solution]
+                  setShoes(copy)
+                })
+              } else {
+                return
+              }
+            }}>버튼</button>
         </div>
         } />
         <Route path='/detail/:id' element = {<Detail01 shoes={shoes} imageroot={imageroot}/>} />
-        {/* <Route path='/detail2' element = {<Detail01 shoes={shoes[1]} imageroot={imageroot[1]}/>} /> */}
-        {/* <Route path='/detail3' element = {<Detail01 shoes={shoes[2]} imageroot={imageroot[2]}/>} /> */}
         <Route path='/*' element = {<div>없는페이지요~ 뒤로가셈~</div>} />
       </Routes>
       
@@ -70,12 +86,14 @@ function Card(props){
       </Col>
   )
 }
-
+ 
 function Detail01(props){
   
   let [count, setCount] = useState(0)
+  let [tabb, setTab] = useState(0)
   let [alert, setAlert] = useState(true)
   let [num, setNum] = useState('')
+  let [anii, setAnii] = useState(['.desc-ani', null, null])
   useEffect(()=>{
     setTimeout(()=>{setAlert(false)}, 2000)
     console.log('1')
@@ -107,8 +125,31 @@ function Detail01(props){
           <Link to={'/'}><button className='btn btn-danger'>뒤로가기</button></Link>
         </div>
       </div>
+      <Nav variant="tabs" defaultActiveKey="link0">
+        <Nav.Item>
+          <Nav.Link onClick={()=>{
+            setTab(0)
+          }} eventKey="link0">버튼0</Nav.Link>
+        </Nav.Item>
+        <Nav.Item onClick={()=>{
+            setTab(1)
+          }}>
+          <Nav.Link eventKey="link1">버튼1</Nav.Link>
+        </Nav.Item>
+        <Nav.Item onClick={()=>{
+            setTab(2)
+          }}>
+          <Nav.Link eventKey="link2">버튼2</Nav.Link>
+        </Nav.Item>
+      </Nav>
+      <TabContent tab = {tabb} anii = {anii} />
     </div> 
   )
+}
+
+function TabContent(props){
+  let lisT = [<div className='desc1 desc '>내용1</div>, <div className='desc2 desc'>내용2</div>, <div className='desc3 desc'>내용3</div>]
+  return(lisT[props.tab])
 }
 
 export default App;

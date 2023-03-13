@@ -63,3 +63,41 @@ img{
     transform: rotate(360deg);
   }
 }
+
+.desc{font-size: 1rem; font-weight: bold;}
+.desc1{background-color: aquamarine;}
+.desc2{background-color: bisque;}
+.desc3{background-color: rgb(216, 118, 185);}
+
+.desc-ani{
+ animation: all 0.35s; 
+}
+@keyframes slide-ani {
+  0%{
+    opacity: 0;
+    transform: translate(50%, 0%);
+
+  }
+  100%{
+    opacity: 1;
+    transform: translate(0%, 0%);
+
+  }
+}
+
+.desc-ani2{
+  animation: all 0.35s; 
+ }
+
+@keyframes slide-ani2 {
+  0%{
+    opacity: 1;
+    transform: translate(0%, 0%);
+
+  }
+  100%{
+    opacity: 0;
+    transform: translate(50%, 0%);
+
+  }
+}
